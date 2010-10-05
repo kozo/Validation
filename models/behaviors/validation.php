@@ -237,6 +237,60 @@ class ValidationBehavior extends ModelBehavior {
 			return false;
 		}
 	}
+    
+    /**
+     * 半角数値チェック(マイナス許可)
+     *
+     * @access public
+     * @param $model モデル(cakeがセット)
+     * @param $data  データ
+     * @param $valid バリデーション情報(cakeがセット)
+     * @author sakuragawa
+     */
+    function isSignedNumeric(&$model, $data, $valid = null){
+        $key = key($data);
+        $val = $data[$key];
+        
+        if($val == ''){
+            // 空は許可
+            return true;
+        }		
+        
+        if(preg_match("/^-?\d+$/u", $val)){
+            // 半角数値
+            return true;
+        }else{
+            // 以外
+            return false;
+        }
+    }
+    
+    /**
+     * 半角浮動小数チェック
+     *
+     * @access public
+     * @param $model モデル(cakeがセット)
+     * @param $data  データ
+     * @param $valid バリデーション情報(cakeがセット)
+     * @author sakuragawa
+     */
+    function isFloat(&$model, $data, $valid = null){
+        $key = key($data);
+        $val = $data[$key];
+        
+        if($val == ''){
+            // 空は許可
+            return true;
+        }		
+
+        if(preg_match("/(^\d+\.\d+$)|(^\d+$)/u", $val)){
+            // 浮動小数
+            return true;
+        }else{
+            // 以外
+            return false;
+        }
+    }
 	
 	/**
 	 * 半角英字かチェック
